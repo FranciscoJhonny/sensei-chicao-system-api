@@ -1,0 +1,6 @@
+@TorneioSC.WebApi_HostAddress = http://localhost:5055
+
+GET {{TorneioSC.WebApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

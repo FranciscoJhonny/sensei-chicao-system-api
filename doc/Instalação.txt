@@ -1,0 +1,15 @@
+Instal projeto api
+- no Projeto TorneioSC.WebApi 
+
+Execute no terminal dentro do seu projeto WebApi:
+dotnet add package Microsoft.EntityFrameworkCore.SqlServer
+dotnet add package Microsoft.EntityFrameworkCore
+
+dentro do projeto TorneioSC.SqlServerAdapter executa 
+dotnet add package Microsoft.EntityFrameworkCore
+
+
+Para criar as entidades do banco no meu projeto
+dotnet ef TorneioDbContext scaffold "workstation id=dbSenseiChicaoSystem.mssql.somee.com;packet size=4096;user id=fmaia_SQLLogin_1;pwd=oj7qamld7z;data source=dbSenseiChicaoSystem.mssql.somee.com;persist security info=False;initial catalog=dbSenseiChicaoSystem;TrustServerCertificate=True" Microsoft.EntityFrameworkCore.SqlServer --context TournamentDbContext --output-dir Entities --context-dir Context --use-database-names
+dotnet ef dbcontext scaffold "workstation id=dbSenseiChicaoSystem.mssql.somee.com;packet size=4096;user id=fmaia_SQLLogin_1;pwd=oj7qamld7z;data source=dbSenseiChicaoSystem.mssql.somee.com;persist security info=False;initial catalog=dbSenseiChicaoSystem;TrustServerCertificate=True" Microsoft.EntityFrameworkCore.SqlServer --context TorneioDbContext --output-dir Entities --context-dir Context --use-database-names
+
