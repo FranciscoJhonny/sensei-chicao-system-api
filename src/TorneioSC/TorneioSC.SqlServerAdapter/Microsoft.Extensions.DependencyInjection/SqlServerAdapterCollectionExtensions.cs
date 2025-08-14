@@ -1,9 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using System.Diagnostics.CodeAnalysis;
 using TorneioSC.Domain.Adapters;
 using TorneioSC.SqlServerAdapter.Context;
+using TorneioSC.SqlServerAdapter.SqlServerAdapters.EstadoAdapters;
 using TorneioSC.SqlServerAdapter.SqlServerAdapters.FederacaoAdapters;
+using TorneioSC.SqlServerAdapter.SqlServerAdapters.MunicipioAdapters;
 using TorneioSC.SqlServerAdapter.SqlServerAdapters.PerfilAdapters;
 using TorneioSC.SqlServerAdapter.SqlServerAdapters.UsuarioAdapters;
 
@@ -40,7 +41,9 @@ namespace TorneioSC.SqlServerAdapter.Microsoft.Extensions.DependencyInjection
             services.AddScoped<IUsuarioSqlReadAdapter, UsuarioSqlReadAdapter>();
             services.AddScoped<IPerfilSqlReadAdapter, PerfilSqlReadAdapter>();
             services.AddScoped<IFederacaoSqlReadAdapter, FederacaoSqlReadAdapter>();
-            
+            services.AddScoped<IMunicipioSqlReadAdapter, MunicipioSqlReadAdapter>();
+            services.AddScoped<IEstadoSqlReadAdapter, EstadoSqlReadAdapter>();
+
 
             return services;
         }

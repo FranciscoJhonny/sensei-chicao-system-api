@@ -91,6 +91,7 @@ builder.Services.AddSwaggerGen(c =>
         }
     });
     c.OperationFilter<UnauthorizedResponseOperationFilter>();
+
 });
 // Adiciona o filtro global de exceções
 builder.Services.AddControllers(options =>

@@ -1,4 +1,7 @@
-﻿namespace TorneioSC.WebApi.Dtos.FederacaoDtos
+﻿using TorneioSC.WebApi.Dtos.EnderecoDtos;
+using TorneioSC.WebApi.Dtos.TelefoneDtos;
+
+namespace TorneioSC.WebApi.Dtos.FederacaoDtos
 {
     public class FederacaoPutDto
     {
@@ -12,5 +15,7 @@
         public string Portaria { get; set; } = string.Empty;
         public bool Ativo { get; set; }
         public int UsuarioOperacaoId { get; set; }
+        public ICollection<EnderecoPutDto> Enderecos { get; set; } = new List<EnderecoPutDto>();
+        public ICollection<TelefonePutDto> Telefones { get; set; } = new List<TelefonePutDto>();
     }
 }

@@ -56,17 +56,17 @@ namespace TorneioSC.Application.Services
             return await _federacaoSqlAdapter.PostFederacaoAsync(novaFederacao);
         }
 
-        public async Task<int> UpdateFederacaoAsync(Federacao federacao, int usuarioLogadoId)
+        public async Task<int> PutFederacaoAsync(Federacao federacao, int usuarioLogadoId)
         {
             var erros = ValidarFederacao(federacao);
             if (erros.Any())
                 throw new ValidacaoFederacaoException(erros);
 
-            if (await _federacaoSqlAdapter.ObterPorCnpjUpdateAsync(federacao.Cnpj, federacao.FederacaoId) != null)
-                throw new CnpjEmUsoException(federacao.Cnpj);
+            //if (await _federacaoSqlAdapter.ObterPorCnpjUpdateAsync(federacao.Cnpj, federacao.FederacaoId) != null)
+            //    throw new CnpjEmUsoException(federacao.Cnpj);
 
             var federacaoAtualizada = PrepararAtualizarFederacao(federacao, usuarioLogadoId);
-            return await _federacaoSqlAdapter.UpdateFederacaoAsync(federacaoAtualizada);
+            return await _federacaoSqlAdapter.PutFederacaoAsync(federacaoAtualizada);
         }
 
         public async Task<bool> DeleteFederacaoPorIdAsync(int federacaoId)
@@ -76,23 +76,6 @@ namespace TorneioSC.Application.Services
 
             return await _federacaoSqlAdapter.DeleteFederacaoPorIdAsync(federacaoId);
         }
-
-        //public async Task<int> VincularEnderecoAsync(int federacaoId, int enderecoId, int usuarioId)
-        //{
-        //    if (federacaoId <= 0 || enderecoId <= 0 || usuarioId <= 0)
-        //        throw new ArgumentException("IDs inválidos para vinculação");
-
-        //    return await _federacaoSqlAdapter.VincularEnderecoAsync(federacaoId, enderecoId, usuarioId);
-        //}
-
-        //public async Task<int> VincularTelefoneAsync(int federacaoId, int telefoneId, int usuarioId)
-        //{
-        //    if (federacaoId <= 0 || telefoneId <= 0 || usuarioId <= 0)
-        //        throw new ArgumentException("IDs inválidos para vinculação");
-
-        //    return await _federacaoSqlAdapter.VincularTelefoneAsync(federacaoId, telefoneId, usuarioId);
-        //}
-
         private List<string> ValidarFederacao(Federacao federacao)
         {
             var erros = new List<string>();
@@ -102,10 +85,10 @@ namespace TorneioSC.Application.Services
             else if (federacao.Nome.Length > 150)
                 erros.Add("Nome não pode exceder 150 caracteres");
 
-            if (string.IsNullOrWhiteSpace(federacao.Cnpj))
-                erros.Add("CNPJ é obrigatório");
-            else if (!IsValidCNPJ(federacao.Cnpj))
-                erros.Add("CNPJ em formato inválido");
+            //if (string.IsNullOrWhiteSpace(federacao.Cnpj))
+            //    erros.Add("CNPJ é obrigatório");
+            //else if (!IsValidCNPJ(federacao.Cnpj))
+            //    erros.Add("CNPJ em formato inválido");
 
             if (string.IsNullOrWhiteSpace(federacao.Email))
                 erros.Add("Email é obrigatório");
@@ -145,10 +128,10 @@ namespace TorneioSC.Application.Services
                 Site = federacao.Site.Trim(),
                 Portaria = federacao.Portaria.Trim(),
                 Ativo = true,
-                UsuarioInclusaoId = usuarioLogadoId,
+                UsuarioInclusaoId = federacao.UsuarioInclusaoId,
                 DataInclusao = DateTime.Now,
                 NaturezaOperacao = "I",
-                UsuarioOperacaoId = usuarioLogadoId,
+                UsuarioOperacaoId = federacao.UsuarioInclusaoId,
                 DataOperacao = DateTime.Now,
 
                 // Telefones preparados
@@ -157,10 +140,10 @@ namespace TorneioSC.Application.Services
                     NumeroTelefone = Recursos.RemoverMascaraTelefone(t.NumeroTelefone?.Trim()),
                     TipoTelefoneId = t.TipoTelefoneId,
                     Ativo = true,
-                    UsuarioInclusaoId = usuarioLogadoId,
+                    UsuarioInclusaoId = t.UsuarioInclusaoId,
                     DataInclusao = DateTime.Now,
                     NaturezaOperacao = "I",
-                    UsuarioOperacaoId = usuarioLogadoId,
+                    UsuarioOperacaoId = t.UsuarioInclusaoId,
                     DataOperacao = DateTime.Now
                 }).ToList(),
 
@@ -173,10 +156,10 @@ namespace TorneioSC.Application.Services
                     Cep = Recursos.RemoverMascaraTelefone(e.Cep?.Trim()),
                     Bairro = e.Bairro?.Trim(),
                     Ativo = true,
-                    UsuarioInclusaoId = usuarioLogadoId,
+                    UsuarioInclusaoId = e.UsuarioInclusaoId,
                     DataInclusao = DateTime.Now,
                     NaturezaOperacao = "I",
-                    UsuarioOperacaoId = usuarioLogadoId,
+                    UsuarioOperacaoId = e.UsuarioInclusaoId,
                     DataOperacao = DateTime.Now
                 }).ToList()
             };
@@ -189,12 +172,45 @@ namespace TorneioSC.Application.Services
             {
                 FederacaoId = federacao.FederacaoId,
                 Nome = federacao.Nome.Trim(),
-                Cnpj = federacao.Cnpj.Trim(),
+                Cnpj = Recursos.RemoverMascaraCNPJ(federacao.Cnpj.Trim()),
                 Email = federacao.Email.Trim().ToLower(),
-                Ativo = federacao.Ativo,
+                DataFundacao = federacao.DataFundacao,
+                MunicipioId = federacao.MunicipioId,
+                Site = federacao.Site.Trim(),
+                Portaria = federacao.Portaria.Trim(),
+                Ativo = true,                
                 NaturezaOperacao = "A",
-                UsuarioOperacaoId = usuarioLogadoId,
-                DataOperacao = DateTime.Now
+                UsuarioOperacaoId = federacao.UsuarioOperacaoId,
+                DataOperacao = DateTime.Now,
+
+                // Telefones preparados
+                Telefones = federacao.Telefones.Select(t => new Telefone
+                {
+                    NumeroTelefone = Recursos.RemoverMascaraTelefone(t.NumeroTelefone?.Trim()),
+                    TipoTelefoneId = t.TipoTelefoneId,
+                    Ativo = true,
+                    UsuarioInclusaoId = t.UsuarioOperacaoId,
+                    DataInclusao = DateTime.Now,
+                    NaturezaOperacao = "I",
+                    UsuarioOperacaoId = t.UsuarioOperacaoId,
+                    DataOperacao = DateTime.Now
+                }).ToList(),
+
+                // Endereços preparados
+                Enderecos = federacao.Enderecos.Select(e => new Endereco
+                {
+                    Logradouro = e.Logradouro.Trim(),
+                    Numero = e.Numero.Trim(),
+                    Complemento = e.Complemento?.Trim(),
+                    Cep = Recursos.RemoverMascaraTelefone(e.Cep?.Trim()),
+                    Bairro = e.Bairro?.Trim(),
+                    Ativo = true,
+                    UsuarioInclusaoId = e.UsuarioInclusaoId,
+                    DataInclusao = DateTime.Now,
+                    NaturezaOperacao = "I",
+                    UsuarioOperacaoId = e.UsuarioOperacaoId,
+                    DataOperacao = DateTime.Now
+                }).ToList()
             };
         }
 

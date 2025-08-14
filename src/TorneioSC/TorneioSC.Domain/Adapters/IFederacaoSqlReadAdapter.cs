@@ -9,7 +9,7 @@ namespace TorneioSC.Domain.Adapters
         Task<Federacao?> ObterPorCnpjAsync(string cnpj);
         Task<Federacao?> ObterPorCnpjUpdateAsync(string cnpj, int federacaoId);
         Task<int> PostFederacaoAsync(Federacao federacao);
-        Task<int> UpdateFederacaoAsync(Federacao federacao);
+        Task<int> PutFederacaoAsync(Federacao federacao);
         Task<bool> DeleteFederacaoPorIdAsync(int federacaoId);
         //Task<int> VincularEnderecoAsync(int federacaoId, int enderecoId, int usuarioId);
         //Task<int> VincularTelefoneAsync(int federacaoId, int telefoneId, int usuarioId);
