@@ -27,7 +27,6 @@ namespace TorneioSC.SqlServerAdapter.SqlServerAdapters.MunicipioAdapters
                 _connection.Open();
             }
         }
-
         public async Task<IEnumerable<Municipio>> ObterMunicipioAsync()
         {
             try
@@ -49,7 +48,6 @@ namespace TorneioSC.SqlServerAdapter.SqlServerAdapters.MunicipioAdapters
             }
 
         }
-
         public async Task<Municipio?> ObterMunicipioPorIdAsync(int municipioId)
         {
             try
@@ -72,7 +70,6 @@ namespace TorneioSC.SqlServerAdapter.SqlServerAdapters.MunicipioAdapters
             }
             
         }
-
         public async Task<IEnumerable<Municipio>> ObterMunicipioPorEstadoIdAsync(int estadoId)
         {
             try

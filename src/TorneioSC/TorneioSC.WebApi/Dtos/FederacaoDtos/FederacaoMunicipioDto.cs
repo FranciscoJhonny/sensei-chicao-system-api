@@ -1,5 +1,4 @@
-﻿using System.Security.Cryptography.Xml;
-using TorneioSC.WebApi.Dtos.AcademiaDtos;
+﻿using TorneioSC.WebApi.Dtos.AcademiaDtos;
 
 namespace TorneioSC.WebApi.Dtos.FederacaoDtos
 {

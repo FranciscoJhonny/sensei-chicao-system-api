@@ -2,6 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 using TorneioSC.Domain.Adapters;
 using TorneioSC.SqlServerAdapter.Context;
+using TorneioSC.SqlServerAdapter.SqlServerAdapters.AcademiaAdapters;
 using TorneioSC.SqlServerAdapter.SqlServerAdapters.EstadoAdapters;
 using TorneioSC.SqlServerAdapter.SqlServerAdapters.FederacaoAdapters;
 using TorneioSC.SqlServerAdapter.SqlServerAdapters.MunicipioAdapters;
@@ -40,7 +41,14 @@ namespace TorneioSC.SqlServerAdapter.Microsoft.Extensions.DependencyInjection
             // Registra os adaptadores
             services.AddScoped<IUsuarioSqlReadAdapter, UsuarioSqlReadAdapter>();
             services.AddScoped<IPerfilSqlReadAdapter, PerfilSqlReadAdapter>();
+            //Federação
             services.AddScoped<IFederacaoSqlReadAdapter, FederacaoSqlReadAdapter>();
+            services.AddScoped<IFederacaoSqlWriteAdapter, FederacaoSqlWriteAdapter>();
+
+            //Academia
+            services.AddScoped<IAcademiaSqlReadAdapter, AcademiaSqlReadAdapter>();
+            services.AddScoped<IAcademiaSqlWriteAdapter, AcademiaSqlWriteAdapter>();
+
             services.AddScoped<IMunicipioSqlReadAdapter, MunicipioSqlReadAdapter>();
             services.AddScoped<IEstadoSqlReadAdapter, EstadoSqlReadAdapter>();
 

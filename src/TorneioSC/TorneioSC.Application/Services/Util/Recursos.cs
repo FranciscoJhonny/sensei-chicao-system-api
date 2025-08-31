@@ -77,6 +77,13 @@ namespace TorneioSC.Application.Services.Util
 
             return new string(cnpj.Where(char.IsDigit).ToArray());
         }
+        public static string RemoverMascaraCPF(string cpf)
+        {
+            if (string.IsNullOrWhiteSpace(cpf))
+                return string.Empty;
+
+            return new string(cpf.Where(char.IsDigit).ToArray());
+        }
 
         public static string RemoverMascaraTelefone(string? telefone)
         {
