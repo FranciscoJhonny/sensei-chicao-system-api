@@ -1,10 +1,7 @@
 ﻿using Dapper;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Threading.Tasks;
 using TorneioSC.Domain.Adapters;
 using TorneioSC.Domain.Models;
 using TorneioSC.Exception.ExceptionBase.ExceptionTipoTelefone;

@@ -10,9 +10,9 @@
     public class OperacaoTipoTelefoneException : TipoTelefoneException
     {
         public OperacaoTipoTelefoneException(string operation)
-            : base($"Erro durante a operação de {operation} da TipoTelefone") { }
+            : base($"Erro durante a operação de {operation} da Tipo Telefone") { }
 
         public OperacaoTipoTelefoneException(string operation, System.Exception inner)
-            : base($"Erro durante a operação de {operation} da TipoTelefone", inner) { }
+            : base($"Erro durante a operação de {operation} da Tipo Telefone", inner) { }
     }
 }
