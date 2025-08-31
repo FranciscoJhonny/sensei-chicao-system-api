@@ -31,8 +31,4 @@
     </PackageReference>           
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="SqlServerAdapters\TipoTelefoneAdapters\" />
-  </ItemGroup>
-
 </Project>

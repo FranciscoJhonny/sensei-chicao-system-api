@@ -21,6 +21,7 @@ namespace TorneioSC.Application.Microsoft.Extensions.DependencyInjection
             services.AddScoped<IMunicipioService, MunicipioService>();
             services.AddScoped<IEstadoService, EstadoService>();
             services.AddScoped<IAcademiaService, AcademiaService>();
+            services.AddScoped<ITipoTelefoneService, TipoTelefoneService>();
 
 
 

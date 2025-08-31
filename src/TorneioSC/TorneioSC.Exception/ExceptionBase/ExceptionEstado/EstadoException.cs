@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TorneioSC.Exception.ExceptionBase.ExceptionEstado
+﻿namespace TorneioSC.Exception.ExceptionBase.ExceptionEstado
 {
     public class EstadoException : TorneioExceptionBase
     {
