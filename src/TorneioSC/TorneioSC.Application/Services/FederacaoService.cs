@@ -6,15 +6,29 @@ using TorneioSC.Domain.Models;
 using TorneioSC.Domain.Models.Filtros;
 using TorneioSC.Domain.Services;
 using TorneioSC.Exception.ExceptionBase.ExceptionFederacao;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace TorneioSC.Application.Services
 {
+    /// <summary>
+    /// Serviço responsável pela lógica de negócios de Federações.
+    /// Coordena operações de leitura e escrita, validações, logs e tratamento de erros.
+    /// </summary>
     public class FederacaoService : IFederacaoService
     {
         private readonly IFederacaoSqlReadAdapter _federacaoSqlReadAdapter;
         private readonly IFederacaoSqlWriteAdapter _federacaoSqlWriteAdapter;
         private readonly ILogger<FederacaoService> _logger;
 
+        /// <summary>
+        /// Inicializa uma nova instância do serviço de federações.
+        /// </summary>
+        /// <param name="federacaoSqlReadAdapter">Adaptador de leitura para operações de consulta.</param>
+        /// <param name="federacaoSqlWriteAdapter">Adaptador de escrita para operações de criação e atualização.</param>
+        /// <param name="logger">Logger para registrar eventos e erros.</param>
         public FederacaoService(
             IFederacaoSqlReadAdapter federacaoSqlReadAdapter,
             IFederacaoSqlWriteAdapter federacaoSqlWriteAdapter,
@@ -26,6 +40,15 @@ namespace TorneioSC.Application.Services
         }
 
         #region 🔽 Métodos de Escrita
+
+        /// <summary>
+        /// Cria uma nova federação no sistema após validação dos dados.
+        /// </summary>
+        /// <param name="federacao">Objeto contendo os dados da nova federação.</param>
+        /// <returns>O ID da federação criada.</returns>
+        /// <exception cref="ValidacaoFederacaoException">Lançada se os dados forem inválidos.</exception>
+        /// <exception cref="CnpjEmUsoException">Lançada se o CNPJ já estiver em uso.</exception>
+        /// <exception cref="OperacaoFederacaoException">Lançada em caso de erro no banco de dados.</exception>
         public async Task<int> PostFederacaoAsync(Federacao federacao)
         {
             _logger.LogInformation("Criando nova federação: {Nome}", federacao.Nome);
@@ -73,6 +96,15 @@ namespace TorneioSC.Application.Services
                 throw;
             }
         }
+
+        /// <summary>
+        /// Atualiza os dados de uma federação existente.
+        /// </summary>
+        /// <param name="federacao">Objeto contendo os dados atualizados da federação.</param>
+        /// <returns>Número de linhas afetadas (geralmente 1 se sucesso).</returns>
+        /// <exception cref="ArgumentException">Lançada se o ID for inválido.</exception>
+        /// <exception cref="ValidacaoFederacaoException">Lançada se os dados forem inválidos.</exception>
+        /// <exception cref="OperacaoFederacaoException">Lançada em caso de erro no banco de dados.</exception>
         public async Task<int> PutFederacaoAsync(Federacao federacao)
         {
             _logger.LogInformation("Atualizando federação ID: {FederacaoId}", federacao.FederacaoId);
@@ -119,6 +151,15 @@ namespace TorneioSC.Application.Services
                 throw;
             }
         }
+
+        /// <summary>
+        /// Inativa uma federação logicamente (exclusão suave).
+        /// </summary>
+        /// <param name="federacaoId">ID da federação a ser inativada.</param>
+        /// <param name="usuarioOperacaoId">ID do usuário que está realizando a operação.</param>
+        /// <returns>True se a federação foi inativada com sucesso; caso contrário, false.</returns>
+        /// <exception cref="ArgumentException">Lançada se o ID for inválido.</exception>
+        /// <exception cref="OperacaoFederacaoException">Lançada em caso de erro no banco de dados.</exception>
         public async Task<bool> InativarFederacaoPorIdAsync(int federacaoId, int usuarioOperacaoId)
         {
             _logger.LogInformation("Inativando federação ID: {FederacaoId}", federacaoId);
@@ -141,7 +182,7 @@ namespace TorneioSC.Application.Services
                 return inativado;
             }
             catch (System.Exception ex) when (ex.Message.Contains("connection") ||
-                                        ex.Message.Contains("database") ||
+                                      ex.Message.Contains("database") ||
                                       ex.Message.Contains("sql"))
             {
                 _logger.LogError(ex, "Erro de banco de dados ao inativar federação ID: {FederacaoId}", federacaoId);
@@ -153,14 +194,17 @@ namespace TorneioSC.Application.Services
                 throw;
             }
         }
+
         #endregion
 
-        #region 🔽 Métodos de leitura
+        #region 🔽 Métodos de Leitura
+
         /// <summary>
-        /// Obtém federações com base em filtros e paginação
+        /// Obtém uma lista paginada de federações com base em filtros (nome, CNPJ, município, estado, ativo).
         /// </summary>
-        /// <param name="filtro">Filtros aplicáveis (Nome, CNPJ, Município, Estado, Ativo)</param>
-        /// <returns>Lista de federações completas e total de registros</returns>
+        /// <param name="filtro">Objeto contendo os critérios de busca e paginação.</param>
+        /// <returns>Tupla contendo a lista de federações e o total de registros (para paginação).</returns>
+        /// <exception cref="OperacaoFederacaoException">Lançada em caso de erro no banco de dados.</exception>
         public async Task<(IEnumerable<Federacao> Federacoes, int Total)> ObterFederacoesPorFiltroAsync(FiltroFederacao filtro)
         {
             _logger.LogInformation("Buscando federações por filtro: {@Filtro}", filtro);
@@ -215,6 +259,11 @@ namespace TorneioSC.Application.Services
             }
         }
 
+        /// <summary>
+        /// Obtém todas as federações ativas do sistema.
+        /// </summary>
+        /// <returns>Lista de todas as federações ativas.</returns>
+        /// <exception cref="OperacaoFederacaoException">Lançada em caso de erro no banco de dados.</exception>
         public async Task<IEnumerable<Federacao>> ObterFederacaoAsync()
         {
             _logger.LogInformation("Buscando todas as federações");
@@ -239,6 +288,13 @@ namespace TorneioSC.Application.Services
             }
         }
 
+        /// <summary>
+        /// Obtém uma federação pelo seu ID.
+        /// </summary>
+        /// <param name="federacaoId">ID da federação.</param>
+        /// <returns>Federação encontrada ou null se não existir.</returns>
+        /// <exception cref="ArgumentException">Lançada se o ID for inválido.</exception>
+        /// <exception cref="OperacaoFederacaoException">Lançada em caso de erro no banco de dados.</exception>
         public async Task<Federacao?> ObterFederacaoPorIdAsync(int federacaoId)
         {
             _logger.LogInformation("Buscando federação por ID: {FederacaoId}", federacaoId);
@@ -276,6 +332,12 @@ namespace TorneioSC.Application.Services
             }
         }
 
+        /// <summary>
+        /// Obtém uma federação pelo CNPJ (somente ativas).
+        /// </summary>
+        /// <param name="cnpj">CNPJ da federação (com ou sem máscara).</param>
+        /// <returns>Federação encontrada ou null se não existir.</returns>
+        /// <exception cref="OperacaoFederacaoException">Lançada em caso de erro no banco de dados.</exception>
         public async Task<Federacao?> ObterPorCnpjAsync(string cnpj)
         {
             _logger.LogInformation("Buscando federação por CNPJ");
@@ -308,6 +370,13 @@ namespace TorneioSC.Application.Services
             }
         }
 
+        /// <summary>
+        /// Verifica se um CNPJ já está em uso por outra federação (usado em atualizações).
+        /// </summary>
+        /// <param name="cnpj">CNPJ a ser verificado.</param>
+        /// <param name="federacaoId">ID da federação sendo editada (excluída da verificação).</param>
+        /// <returns>Federação encontrada com o CNPJ ou null se disponível.</returns>
+        /// <exception cref="OperacaoFederacaoException">Lançada em caso de erro no banco de dados.</exception>
         public async Task<Federacao?> ObterPorCnpjUpdateAsync(string cnpj, int federacaoId)
         {
             _logger.LogInformation("Verificando CNPJ duplicado para atualização da federação ID: {FederacaoId}", federacaoId);
@@ -330,6 +399,11 @@ namespace TorneioSC.Application.Services
             }
         }
 
+        /// <summary>
+        /// Obtém um resumo básico de todas as federações (ID, Nome, CNPJ, Cidade, Ativo).
+        /// </summary>
+        /// <returns>Lista de resumos das federações ativas.</returns>
+        /// <exception cref="OperacaoFederacaoException">Lançada em caso de erro no banco de dados.</exception>
         public async Task<IEnumerable<FederacaoResumo>> ObterResumoFederacoesAsync()
         {
             try
@@ -343,6 +417,12 @@ namespace TorneioSC.Application.Services
             }
         }
 
+        /// <summary>
+        /// Obtém um resumo de federações filtradas (por nome, CNPJ, município, estado).
+        /// </summary>
+        /// <param name="filtro">Filtros aplicáveis.</param>
+        /// <returns>Lista de resumos das federações que atendem aos critérios.</returns>
+        /// <exception cref="OperacaoFederacaoException">Lançada em caso de erro no banco de dados.</exception>
         public async Task<IEnumerable<FederacaoResumo>> ObterResumoFederacoesAsync(FiltroFederacao filtro)
         {
             try
@@ -356,6 +436,13 @@ namespace TorneioSC.Application.Services
             }
         }
 
+        /// <summary>
+        /// Obtém um resumo de federações com paginação.
+        /// </summary>
+        /// <param name="pagina">Página atual (padrão: 1).</param>
+        /// <param name="tamanhoPagina">Quantidade de registros por página (padrão: 10, máx: 100).</param>
+        /// <returns>Tupla contendo os resumos e o total de registros.</returns>
+        /// <exception cref="OperacaoFederacaoException">Lançada em caso de erro no banco de dados.</exception>
         public async Task<(IEnumerable<FederacaoResumo> Resumos, int Total)> ObterResumoFederacoesPaginadoAsync(int pagina = 1, int tamanhoPagina = 10)
         {
             if (pagina < 1) pagina = 1;
@@ -372,6 +459,12 @@ namespace TorneioSC.Application.Services
             }
         }
 
+        /// <summary>
+        /// Obtém o total de federações ativas com base em filtros opcionais.
+        /// </summary>
+        /// <param name="filtro">Filtros aplicáveis (nome, CNPJ, município, estado, ativo).</param>
+        /// <returns>Número total de federações que atendem aos critérios.</returns>
+        /// <exception cref="OperacaoFederacaoException">Lançada em caso de erro no banco de dados.</exception>
         public async Task<int> ObterTotalFederacoesAsync(FiltroFederacao? filtro = null)
         {
             try
@@ -385,6 +478,11 @@ namespace TorneioSC.Application.Services
             }
         }
 
+        /// <summary>
+        /// Obtém estatísticas gerais das federações (total, ativas, inativas, estados, cidades).
+        /// </summary>
+        /// <returns>Objeto com as estatísticas detalhadas.</returns>
+        /// <exception cref="OperacaoFederacaoException">Lançada em caso de erro no banco de dados.</exception>
         public async Task<EstatisticasFederacoes> ObterEstatisticasFederacoesAsync()
         {
             try
@@ -402,6 +500,11 @@ namespace TorneioSC.Application.Services
 
         #region 🔽 Validações
 
+        /// <summary>
+        /// Valida os dados de uma federação antes de persistir.
+        /// </summary>
+        /// <param name="federacao">Objeto a ser validado.</param>
+        /// <returns>Lista de mensagens de erro. Vazio se válido.</returns>
         private List<string> ValidarFederacao(Federacao federacao)
         {
             var erros = new List<string>();
@@ -445,8 +548,18 @@ namespace TorneioSC.Application.Services
             return erros;
         }
 
+        /// <summary>
+        /// Verifica se um endereço de email é válido.
+        /// </summary>
+        /// <param name="email">Email a ser validado.</param>
+        /// <returns>True se válido; caso contrário, false.</returns>
         private bool IsValidEmail(string email) => new System.Net.Mail.MailAddress(email).Address == email;
 
+        /// <summary>
+        /// Verifica se um número de telefone tem formato válido (10 ou 11 dígitos após limpeza).
+        /// </summary>
+        /// <param name="telefone">Número de telefone a ser validado.</param>
+        /// <returns>True se válido; caso contrário, false.</returns>
         private bool IsValidTelefone(string telefone)
         {
             var cleaned = Recursos.RemoverMascaraTelefone(telefone);
