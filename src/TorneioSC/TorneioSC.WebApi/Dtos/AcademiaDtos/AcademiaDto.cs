@@ -3,7 +3,6 @@ using TorneioSC.WebApi.Dtos.AtletaDtos;
 using TorneioSC.WebApi.Dtos.EnderecoDtos;
 using TorneioSC.WebApi.Dtos.FederacaoDtos;
 using TorneioSC.WebApi.Dtos.MunicipioDtos;
-using TorneioSC.WebApi.Dtos.RedeSocialDtos;
 using TorneioSC.WebApi.Dtos.TelefoneDtos;
 using TorneioSC.WebApi.Dtos.TorneioDtos;
 using TorneioSC.WebApi.Dtos.UsuarioDtos;

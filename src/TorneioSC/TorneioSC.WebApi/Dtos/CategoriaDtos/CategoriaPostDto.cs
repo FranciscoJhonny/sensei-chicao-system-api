@@ -1,7 +1,11 @@
 ﻿namespace TorneioSC.WebApi.Dtos.CategoriaDtos
 {
-    public class CategoriaDto
+    public class CategoriaPostDto
     {
+        /// <summary>
+        /// ID da modalidade associada (ex: 1 = Kata, 2 = Kumite).
+        /// </summary>
+        public int ModalidadeId { get; set; }
         public string NomeCategoria { get; set; } = string.Empty;
         public int IdadeMin { get; set; }
         public int IdadeMax { get; set; }

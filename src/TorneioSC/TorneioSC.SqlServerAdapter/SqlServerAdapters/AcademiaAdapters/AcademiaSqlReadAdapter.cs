@@ -15,12 +15,12 @@ namespace TorneioSC.SqlServerAdapter.SqlServerAdapters.AcademiaAdapters
     internal class AcademiaSqlReadAdapter : IAcademiaSqlReadAdapter
     {
         private readonly SqlConnection _connection;
-        private readonly ILogger<FederacaoSqlReadAdapter> _logger;
+        private readonly ILogger<AcademiaSqlReadAdapter> _logger;
 
         public AcademiaSqlReadAdapter(ILoggerFactory loggerFactory, SqlAdapterContext context)
         {
             _connection = context?.Connection ?? throw new ArgumentNullException(nameof(context));
-            _logger = loggerFactory?.CreateLogger<FederacaoSqlReadAdapter>() ?? throw new ArgumentNullException(nameof(loggerFactory));
+            _logger = loggerFactory?.CreateLogger<AcademiaSqlReadAdapter>() ?? throw new ArgumentNullException(nameof(loggerFactory));
 
             if (_connection.State == ConnectionState.Closed)
             {

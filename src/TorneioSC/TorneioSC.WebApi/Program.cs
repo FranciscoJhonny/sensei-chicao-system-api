@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Net;
+using System.Reflection;
 using System.Text;
 using System.Text.Json;
 using TorneioSC.Application.Microsoft.Extensions.DependencyInjection;
@@ -61,6 +62,13 @@ builder.Services.AddAutoMapper(typeof(WebApiMapperProfile).Assembly);
 // Configuração do Swagger com JWT
 builder.Services.AddSwaggerGen(c =>
 {
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    if (File.Exists(xmlPath))
+    {
+        c.IncludeXmlComments(xmlPath);
+    }
+
     c.SwaggerDoc("v1", new() { Title = "TorneioSC API", Version = "v1" });
 
     // Configuração para suportar JWT no Swagger

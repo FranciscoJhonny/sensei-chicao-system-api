@@ -23,6 +23,7 @@ namespace TorneioSC.Application.Microsoft.Extensions.DependencyInjection
             services.AddScoped<IAcademiaService, AcademiaService>();
             services.AddScoped<ITipoTelefoneService, TipoTelefoneService>();
             services.AddScoped<IRedeSocialService, RedeSocialService>();
+            services.AddScoped<IEventoService, EventoService>();
 
 
             return services;

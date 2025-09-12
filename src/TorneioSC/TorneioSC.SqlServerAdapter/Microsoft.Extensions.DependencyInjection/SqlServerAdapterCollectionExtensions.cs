@@ -4,6 +4,7 @@ using TorneioSC.Domain.Adapters;
 using TorneioSC.SqlServerAdapter.Context;
 using TorneioSC.SqlServerAdapter.SqlServerAdapters.AcademiaAdapters;
 using TorneioSC.SqlServerAdapter.SqlServerAdapters.EstadoAdapters;
+using TorneioSC.SqlServerAdapter.SqlServerAdapters.EventoAdapters;
 using TorneioSC.SqlServerAdapter.SqlServerAdapters.FederacaoAdapters;
 using TorneioSC.SqlServerAdapter.SqlServerAdapters.MunicipioAdapters;
 using TorneioSC.SqlServerAdapter.SqlServerAdapters.PerfilAdapters;
@@ -57,6 +58,8 @@ namespace TorneioSC.SqlServerAdapter.Microsoft.Extensions.DependencyInjection
             services.AddScoped<ITipoTelefoneSqlReadAdapter, TipoTelefoneSqlReadAdapter>();
             services.AddScoped<IRedeSocialSqlReadAdapter, RedeSocialSqlReadAdapter>();
 
+            services.AddScoped<IEventoSqlWriteAdapter, EventoSqlWriteAdapter>();
+            services.AddScoped<IEventoSqlReadAdapter, EventoSqlReadAdapter>();
             return services;
         }
     }

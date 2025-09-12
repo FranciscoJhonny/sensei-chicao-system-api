@@ -1,4 +1,4 @@
-﻿using TorneioSC.WebApi.Dtos.EventoTorneioDtos;
+﻿using TorneioSC.Domain.Models;
 using TorneioSC.WebApi.Dtos.UsuarioDtos;
 
 namespace TorneioSC.WebApi.Dtos.EventoDtos
@@ -6,7 +6,7 @@ namespace TorneioSC.WebApi.Dtos.EventoDtos
     public class EventoDto
     {
         public int EventoId { get; set; }
-        public string Nome { get; set; } = string.Empty;
+        public string NomeEvento { get; set; } = string.Empty;
         public DateTime DataInicio { get; set; }
         public DateTime DataFim { get; set; }
         public string Local { get; set; } = string.Empty;
@@ -23,6 +23,6 @@ namespace TorneioSC.WebApi.Dtos.EventoDtos
 
         public UsuarioDto? UsuarioInclusao { get; set; }
         public UsuarioDto? UsuarioOperacao { get; set; }
-        public ICollection<EventoTorneioDto> Torneios { get; set; } = new List<EventoTorneioDto>();
+        public Torneio Torneio { get; set; } = new Torneio();
     }
 }
