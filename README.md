@@ -20,7 +20,7 @@ Sistema completo para gerenciamento de torneios de karatê, desenvolvido em arqu
 
 O projeto segue os princípios da **Clean Architecture** com separação em camadas:
 
-TorneioSC/
+TorneioSC/<br>
 ├── 📁 TorneioSC.Domain/ # Entidades e contratos <br>
 ├── 📁 TorneioSC.Application/ # Lógica de negócio e serviços  <br>
 ├── 📁 TorneioSC.Infrastructure/ # Implementações externas (SQL Server)  <br>
