@@ -22,10 +22,10 @@ O projeto segue os princípios da **Clean Architecture** com separação em cama
 
 TorneioSC/
 ├── 📁 TorneioSC.Domain/ # Entidades e contratos <br>
-├── 📁 TorneioSC.Application/ # Lógica de negócio e serviços
-├── 📁 TorneioSC.Infrastructure/ # Implementações externas (SQL Server)
-├── 📁 TorneioSC.WebApi/ # API REST e controllers
-└── 📁 TorneioSC.Exception/ # Exceções personalizadas
+├── 📁 TorneioSC.Application/ # Lógica de negócio e serviços  <br>
+├── 📁 TorneioSC.Infrastructure/ # Implementações externas (SQL Server)  <br>
+├── 📁 TorneioSC.WebApi/ # API REST e controllers  <br>
+└── 📁 TorneioSC.Exception/ # Exceções personalizadas  <br>
 
 ## 🚀 Funcionalidades
 
