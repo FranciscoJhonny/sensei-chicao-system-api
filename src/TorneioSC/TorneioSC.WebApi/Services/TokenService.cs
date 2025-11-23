@@ -6,8 +6,16 @@ using TorneioSC.Domain.Models;
 
 namespace TorneioSC.WebApi.Services
 {
+    /// <summary>
+    /// Serviço para geração e manipulação de tokens JWT
+    /// </summary>
     public class TokenService
     {
+        /// <summary>
+        /// Gera um token JWT para o usuário autenticado
+        /// </summary>
+        /// <param name="usuario">Dados do usuário logado</param>
+        /// <returns>Objeto contendo o token de acesso</returns>
         public static object GenerateToken(UsuarioLogadoVM usuario)
         {
             var key = Encoding.ASCII.GetBytes(Key.Secret);
@@ -34,7 +42,6 @@ namespace TorneioSC.WebApi.Services
             {
                 access_token = tokenString
             };
-
         }
     }
 }

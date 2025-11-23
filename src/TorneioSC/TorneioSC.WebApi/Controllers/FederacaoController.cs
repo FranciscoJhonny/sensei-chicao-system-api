@@ -4,7 +4,6 @@ using TorneioSC.Domain.Models;
 using TorneioSC.Domain.Models.Filtros;
 using TorneioSC.Domain.Services;
 using TorneioSC.WebApi.Dtos.FederacaoDtos;
-using System.ComponentModel.DataAnnotations;
 
 namespace TorneioSC.WebApi.Controllers
 {

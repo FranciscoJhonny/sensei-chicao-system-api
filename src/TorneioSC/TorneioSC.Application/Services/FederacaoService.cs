@@ -6,10 +6,6 @@ using TorneioSC.Domain.Models;
 using TorneioSC.Domain.Models.Filtros;
 using TorneioSC.Domain.Services;
 using TorneioSC.Exception.ExceptionBase.ExceptionFederacao;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace TorneioSC.Application.Services
 {

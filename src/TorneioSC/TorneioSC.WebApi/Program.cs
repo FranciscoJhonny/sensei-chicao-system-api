@@ -25,6 +25,9 @@ builder.Configuration
 var jwtSettings = builder.Configuration.GetSection("Jwt");
 var key = Encoding.ASCII.GetBytes(jwtSettings["Secret"]);
 
+/// <summary>
+/// Configura a autenticação JWT para a aplicação
+/// </summary>
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -44,7 +47,12 @@ builder.Services.AddAuthentication(options =>
         ClockSkew = TimeSpan.Zero
     };
 });
+
+/// <summary>
+/// Configura a autorização para a aplicação
+/// </summary>
 builder.Services.AddAuthorization();
+
 // Configuração do SQL Server Adapter
 var sqlAdapterConfig = new SqlServerAdapterConfiguration
 {
@@ -59,7 +67,9 @@ builder.Services.AddSqlServerAdapter(sqlAdapterConfig);
 builder.Services.AddApplicationService();
 builder.Services.AddAutoMapper(typeof(WebApiMapperProfile).Assembly);
 
-// Configuração do Swagger com JWT
+/// <summary>
+/// Configura o Swagger/OpenAPI com suporte a JWT e documentação XML
+/// </summary>
 builder.Services.AddSwaggerGen(c =>
 {
     var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
@@ -99,21 +109,33 @@ builder.Services.AddSwaggerGen(c =>
         }
     });
     c.OperationFilter<UnauthorizedResponseOperationFilter>();
-
 });
-// Adiciona o filtro global de exceções
+
+/// <summary>
+/// Configura os controllers com filtro global de exceções
+/// </summary>
 builder.Services.AddControllers(options =>
 {
     options.Filters.Add<CustomExceptionFilter>();
 });
-builder.Services.AddLogging(loggingBuilder => {
+
+/// <summary>
+/// Configura o sistema de logging
+/// </summary>
+builder.Services.AddLogging(loggingBuilder =>
+{
     loggingBuilder.AddConsole();
     loggingBuilder.AddDebug();
 });
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
 var app = builder.Build();
+
+/// <summary>
+/// Middleware para interceptar e customizar respostas 401
+/// </summary>
 app.Use(async (context, next) =>
 {
     await next();
@@ -130,9 +152,12 @@ app.Use(async (context, next) =>
     }
 });
 
-// Pipeline
+// Pipeline de configuração da aplicação
 if (app.Environment.IsDevelopment())
 {
+    /// <summary>
+    /// Habilita Swagger apenas em ambiente de desenvolvimento
+    /// </summary>
     app.UseSwagger();
     app.UseSwaggerUI();
 }
@@ -142,8 +167,15 @@ app.UseHttpsRedirection();
 // IMPORTANTE: UseAuthentication antes de UseAuthorization
 app.UseAuthentication();
 app.UseAuthorization();
-// Middleware para customizar respostas 401
+
+/// <summary>
+/// Middleware customizado para personalizar respostas 401
+/// </summary>
 app.UseMiddleware<UnauthorizedResponseMiddleware>();
+
 app.MapControllers();
 
+/// <summary>
+/// Inicia a execução da aplicação
+/// </summary>
 app.Run();

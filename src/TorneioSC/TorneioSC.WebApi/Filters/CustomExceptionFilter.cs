@@ -7,19 +7,31 @@ using TorneioSC.Exception.ExceptionBase.ExceptionUsuario;
 
 namespace TorneioSC.WebApi.Filters
 {
+    /// <summary>
+    /// Filtro personalizado para tratamento global de exceções na aplicação
+    /// </summary>
     public class CustomExceptionFilter : IExceptionFilter
     {
         private readonly ILogger<CustomExceptionFilter> _logger;
 
+        /// <summary>
+        /// Construtor do filtro de exceções
+        /// </summary>
+        /// <param name="logger">Logger para registro de eventos</param>
         public CustomExceptionFilter(ILogger<CustomExceptionFilter> logger)
         {
             _logger = logger;
         }
 
+        /// <summary>
+        /// Método executado quando uma exceção ocorre na aplicação
+        /// </summary>
+        /// <param name="context">Contexto da exceção contendo informações sobre o erro</param>
         public void OnException(ExceptionContext context)
         {
-                var exception = context.Exception;
+            var exception = context.Exception;
             _logger.LogError(exception, "Erro não tratado na aplicação");
+
             // Verifica primeiro se é uma exceção de autorização
             if (context.Exception is Microsoft.AspNetCore.Authentication.AuthenticationFailureException ||
                 context.Exception is UnauthorizedAccessException ||
@@ -96,6 +108,13 @@ namespace TorneioSC.WebApi.Filters
             context.ExceptionHandled = true;
         }
 
+        /// <summary>
+        /// Cria a resposta padronizada para exceções
+        /// </summary>
+        /// <param name="context">Contexto da exceção</param>
+        /// <param name="statusCode">Código HTTP de status</param>
+        /// <param name="message">Mensagem de erro</param>
+        /// <param name="errors">Lista de erros de validação (opcional)</param>
         private void CreateResponse(ExceptionContext context, HttpStatusCode statusCode, string message, List<string> errors = null)
         {
             var response = new

@@ -1,17 +1,13 @@
 ﻿using Dapper;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Text;
-using System.Threading.Tasks;
 using TorneioSC.Domain.Adapters;
+using TorneioSC.Domain.Dtos;
 using TorneioSC.Domain.Models;
 using TorneioSC.Domain.Models.Filtros;
-using TorneioSC.Domain.Dtos;
 using TorneioSC.Exception.ExceptionBase.ExceptionFederacao;
-using System.Dynamic;
 
 namespace TorneioSC.SqlServerAdapter.SqlServerAdapters.FederacaoAdapters
 {

@@ -1,6 +1,5 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
-using TorneioSC.Domain.Models;
 
 namespace TorneioSC.Application.Services.Util
 {

@@ -1,14 +1,10 @@
-﻿// Arquivo: EventoController.cs
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using TorneioSC.Application.Services;
 using TorneioSC.Domain.Models;
 using TorneioSC.Domain.Models.Filtros;
 using TorneioSC.Domain.Services;
 using TorneioSC.Exception.ExceptionBase.ExceptionEvento;
 using TorneioSC.WebApi.Dtos.EventoDtos;
-using System;
-using System.Threading.Tasks;
 
 namespace TorneioSC.Api.Controllers
 {

@@ -31,6 +31,8 @@ namespace TorneioSC.WebApi.Controllers
             _redeSocialService = redeSocialService ?? throw new ArgumentNullException(nameof(redeSocialService));
         }
 
+        #region 🔽 Métodos de Leitura
+
         /// <summary>
         /// Obtém a lista de todas as redes sociais ativas do sistema.
         /// </summary>
@@ -87,5 +89,7 @@ namespace TorneioSC.WebApi.Controllers
 
             return Ok(response);
         }
+
+        #endregion
     }
 }

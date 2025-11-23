@@ -1,12 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using TorneioSC.Application.Services;
 using TorneioSC.Domain.Models;
 using TorneioSC.Domain.Models.Filtros;
 using TorneioSC.Domain.Services;
 using TorneioSC.Exception.ExceptionBase.ExceptionAcademia;
 using TorneioSC.WebApi.Dtos.AcademiaDtos;
-using TorneioSC.WebApi.Dtos.FederacaoDtos;
 
 namespace TorneioSC.WebApi.Controllers
 {

@@ -8,7 +8,6 @@ using TorneioSC.Domain.Dtos;
 using TorneioSC.Domain.Models;
 using TorneioSC.Domain.Models.Filtros;
 using TorneioSC.Exception.ExceptionBase.ExceptionAcademia;
-using TorneioSC.SqlServerAdapter.SqlServerAdapters.FederacaoAdapters;
 
 namespace TorneioSC.SqlServerAdapter.SqlServerAdapters.AcademiaAdapters
 {

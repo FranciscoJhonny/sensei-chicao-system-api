@@ -3,15 +3,26 @@ using System.Text.Json;
 
 namespace TorneioSC.WebApi.Middlewares
 {
+    /// <summary>
+    /// Middleware para personalizar respostas 401 (Unauthorized) na aplicação
+    /// </summary>
     public class UnauthorizedResponseMiddleware
     {
         private readonly RequestDelegate _next;
 
+        /// <summary>
+        /// Construtor do middleware
+        /// </summary>
+        /// <param name="next">Próximo middleware no pipeline</param>
         public UnauthorizedResponseMiddleware(RequestDelegate next)
         {
             _next = next;
         }
 
+        /// <summary>
+        /// Método principal de execução do middleware
+        /// </summary>
+        /// <param name="context">Contexto HTTP da requisição</param>
         public async Task Invoke(HttpContext context)
         {
             // Intercepta a resposta
@@ -55,6 +66,11 @@ namespace TorneioSC.WebApi.Middlewares
             }
         }
 
+        /// <summary>
+        /// Obtém a mensagem de erro personalizada baseada no contexto da requisição
+        /// </summary>
+        /// <param name="context">Contexto HTTP da requisição</param>
+        /// <returns>Mensagem de erro detalhada</returns>
         private string GetErrorMessage(HttpContext context)
         {
             if (!context.Request.Headers.ContainsKey("Authorization"))

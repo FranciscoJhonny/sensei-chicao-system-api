@@ -2,20 +2,42 @@
 
 namespace TorneioSC.WebApi.Dtos.UsuarioDtos
 {
+    /// <summary>
+    /// DTO para atualização de um usuário existente
+    /// </summary>
     public class UsuarioPutDto
     {
+        /// <summary>
+        /// ID único do usuário a ser atualizado
+        /// </summary>
         public int UsuarioId { get; set; }
 
-        [Required, StringLength(100)]
+        /// <summary>
+        /// Nome completo do usuário
+        /// </summary>
+        [Required(ErrorMessage = "O nome é obrigatório.")]
+        [StringLength(100, ErrorMessage = "O nome não pode exceder 100 caracteres.")]
         public string Nome { get; set; } = string.Empty;
 
-        [Required, EmailAddress]
+        /// <summary>
+        /// Email do usuário (utilizado para login)
+        /// </summary>
+        [Required(ErrorMessage = "O email é obrigatório.")]
+        [EmailAddress(ErrorMessage = "O email informado não é válido.")]
         public string Email { get; set; } = string.Empty;
 
-        [Required, MinLength(6)]
+        /// <summary>
+        /// Nova senha do usuário (mínimo 6 caracteres)
+        /// </summary>
+        [Required(ErrorMessage = "A senha é obrigatória.")]
+        [MinLength(6, ErrorMessage = "A senha deve ter pelo menos 6 caracteres.")]
         public string SenhaHash { get; set; } = string.Empty;
 
-        [Required, Range(1, int.MaxValue)]
+        /// <summary>
+        /// ID do perfil do usuário
+        /// </summary>
+        [Required(ErrorMessage = "O perfil é obrigatório.")]
+        [Range(1, int.MaxValue, ErrorMessage = "O perfil informado não é válido.")]
         public int PerfilId { get; set; }
     }
 }
