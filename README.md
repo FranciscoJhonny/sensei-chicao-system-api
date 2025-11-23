@@ -79,37 +79,37 @@ TorneioSC/<br>
 
 ### TorneioSC.Domain
 
-Domain/
-├── Models/ # Entidades de negócio
-├── Services/ # Interfaces de serviços
-├── Dtos/ # Objetos de transferência de dados
-└── Adapters/ # Contratos para adaptadores
+Domain/<br>
+├── Models/ # Entidades de negócio<br>
+├── Services/ # Interfaces de serviços <br>
+├── Dtos/ # Objetos de transferência de dados <br>
+└── Adapters/ # Contratos para adaptadores <br>
 
 ### TorneioSC.Application
 
-SqlServerAdapter/
-├── Context/ # DbContext do EF Core
-├── Entities/ # Entidades do banco
-├── Adapters/ # Implementação dos adaptadores
-└── Mappings/ # Configurações do EF
+SqlServerAdapter/ <br>
+├── Context/ # DbContext do EF Core <br>
+├── Entities/ # Entidades do banco <br>
+├── Adapters/ # Implementação dos adaptadores <br>
+└── Mappings/ # Configurações do EF <br>
 
 ### TorneioSC.WebApi
 
-WebApi/
-├── Controllers/ # Controladores da API
-├── Dtos/ # DTOs específicos da API
-├── Filters/ # Filtros personalizados
-├── Middlewares/ # Middlewares customizados
-├── Services/ # Serviços da Web API
-└── Profiles/ # Perfis do AutoMapper
+WebApi/ <br>
+├── Controllers/ # Controladores da API <br>
+├── Dtos/ # DTOs específicos da API <br>
+├── Filters/ # Filtros personalizados <br>
+├── Middlewares/ # Middlewares customizados <br>
+├── Services/ # Serviços da Web API <br>
+└── Profiles/ # Perfis do AutoMapper <br>
 
 ### TorneioSC.Exception
 
-Exception/
-└── ExceptionBase/
-├── ExceptionUsuario/ # Exceções de usuário
-├── ExceptionFederacao/ # Exceções de federação
-└── ExceptionPerfil/ # Exceções de perfil
+Exception/ <br>
+└── ExceptionBase/ <br>
+├── ExceptionUsuario/ # Exceções de usuário <br>
+├── ExceptionFederacao/ # Exceções de federação <br>
+└── ExceptionPerfil/ # Exceções de perfil <br>
 
 ## 📦 Pré-requisitos
 - [.NET 6 SDK](https://dotnet.microsoft.com/download)
